@@ -1,3 +1,5 @@
+# WingSpan2024
+The software end of Wentworth's Aerospace Engineering club 2024
 ### Glider PID Control and Visualization
 This project simulates the glide path of an autonomous glider, adjusting its control surfaces based on altitude using a PID (Proportional-Integral-Derivative) controller. The glider's target is to land smoothly on a runway from a variable starting altitude and distance while maintaining proper glide slopes.
 
@@ -28,6 +30,8 @@ The glide slope is calculated based on the difference between the current altitu
 The PID controller then adjusts the glider's angle to follow this slope for a smooth landing.
 3. Live Visualization
 The project uses matplotlib to show real-time changes in the glider's altitude and angle, with target altitude and ground levels clearly marked.
+![Glider Display](images/Glider_Program_1.png)
+<img src = "images/Glider_Program_1.png" alt = "Glider Display" width = "400"/>
 
 ### Adjustable Constants
 You can adjust the following constants for testing different scenarios:
