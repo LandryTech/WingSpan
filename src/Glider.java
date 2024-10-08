@@ -1,3 +1,8 @@
+/**
+ * Glider class that simulates the behavior of an autonomous glider.
+ * It utilizes a PID controller to adjust the glider's angle during descent
+ * and aims to land the glider within a defined target altitude and runway distance.
+ */
 public class Glider {
     
     // Target altitude for the glider to reach during its decent
@@ -16,26 +21,35 @@ public class Glider {
     // The current angle of the glider (controled by the PID loop)
     public static double gliderAngle = 0;
 
-
-    // === Initialize Sensors (Placeholder) ===
-    // This is a placeholder function for initializing sensors such as GPS, IMU, etc.
-    // In a real-world system, this would interface with actual hardware
+    /**
+     * Initializes the sensors (GPS, IMU, etc.)
+     * In a real-world system, this would interface with actual hardware to gather data
+     */
     public static void initializeSensors(){
         System.out.printf("Sensors initialized (GPS, IMU, etc.)");
     }
 
-    // === PID Controller Setup ===
-    // This function initalizes a PID controler using constants (Kp, Ki, Kd)
-    // The output limits ensure the glider's angle is within a valid range (-5 to 5 degrees)
+    /**
+     * Initializes the PID controller using constants (Kp, Ki, Kd)  defined in the Constants class.
+     * The output limits ensure that the glider's angle stays within a valid range.
+     * 
+     * @return A configured PID controller for managing the glider's angle.
+     */
     public static PID initialize_pid(){
         PID pid = new PID(Constants.Kp,Constants.Ki,Constants.Kd,1); // PID constants defined in Constants class
-        pid.setOutputLimits(new double[] {-5,5}); // Limiting the angle of adjustment between -5 and 5 degrees
+        pid.setOutputLimits(new double[] {-30,30}); // Limiting the angle of adjustment between -5 and 5 degrees
         return pid;
     }
 
-    // === Target Glide Path Calculations ===
-    // This function calculates the glide slope based on the current altitude, target altitude,
-    // and the distance to the target. If the distance is zero, it simply returns the target altitude
+    /**
+     * Calculates the desired glide path based on the current altitude, target altitude,
+     * and the distance to the target. If the distance is zero, it returns the target altitude directly.
+     * 
+     * @param current_altitude The current altitude of the glider
+     * @param target_altitude The target altitude for landing
+     * @param distance_to_target The remaining distance to the target
+     * @return The calculated glide slope
+     */
     public static double calculateGlidePath(double current_altitude, double target_altitude, double distance_to_target){
         if(distance_to_target ==0){
             return target_altitude; // If distance to target is zero, return the target altitude directly
@@ -43,12 +57,21 @@ public class Glider {
         return (current_altitude - target_altitude)/distance_to_target; // Returns glide slope
     }
 
-    // === Control Adjustment Based on PID ===
-    // This function adjusts the glider's angle based on the output for the PID controller
+    /**
+     * Adjusts the glider's angle based on the control output from the PID controller.
+     * 
+     * @param controlAdjustment The new angle adjustment from the PID controller
+     */
     public static void adjust_Controls(double controlAdjustment){
         gliderAngle = controlAdjustment; // Adjust glider's angle to the PID control output
     }
  
+    /**
+     * The main method that runs the glider simulation. It initializes sensors, sets up the PID controller,
+     * and runs a continuous loop to simulate real-time control adjustments.
+     * 
+     * @param args Command-line arguments ignored
+     */
     public static void main(String[] args){
         initializeSensors(); // Initialize the sensors
 
